@@ -71,8 +71,15 @@ import { FormsModule } from '@angular/forms';
                   <lucide-icon name="car" class="w-6 h-6"></lucide-icon>
                 </div>
                 <div>
-                  <div class="font-bold text-slate-200">{{ booking.carId }}</div>
-                  <div class="text-xs text-slate-500">{{ booking.startTime | date:'MMM d, HH:mm' }}</div>
+                  <div class="font-bold text-slate-200">
+                    <span *ngIf="booking.carBrand">{{ booking.carBrand }} {{ booking.carModel }}</span>
+                    <span *ngIf="!booking.carBrand">{{ booking.carId }}</span>
+                  </div>
+                  <div class="text-xs text-slate-500 flex items-center gap-2">
+                    <span class="font-mono">{{ booking.carId }}</span>
+                    <span>•</span>
+                    <span>{{ booking.startTime | date:'MMM d, HH:mm' }}</span>
+                  </div>
                 </div>
               </div>
             </td>

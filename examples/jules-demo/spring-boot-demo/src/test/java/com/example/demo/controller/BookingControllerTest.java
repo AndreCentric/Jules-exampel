@@ -6,6 +6,7 @@ import com.example.demo.dto.StatusUpdateRequest;
 import com.example.demo.exception.InvalidStateTransitionException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.BookingService;
+import com.example.demo.service.CarService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ class BookingControllerTest {
 
     @MockBean
     private BookingService bookingService;
+
+    @MockBean
+    private CarService carService;
 
     @Autowired
     private ObjectMapper objectMapper;

@@ -9,6 +9,8 @@ export interface Booking {
   id: number;
   status: BookingStatus;
   carId: string;
+  carBrand?: string;
+  carModel?: string;
   userId: string;
   startTime: string;
   endTime?: string;

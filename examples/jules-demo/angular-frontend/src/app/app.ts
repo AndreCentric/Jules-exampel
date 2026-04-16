@@ -34,6 +34,12 @@ import { LucideAngularModule } from 'lucide-angular';
               <lucide-icon name="history" class="w-5 h-5"></lucide-icon>
               <span class="font-medium">Global Audit</span>
             </a>
+
+            <a routerLink="/fleet" routerLinkActive="bg-slate-800 text-primary-400"
+               class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-all">
+              <lucide-icon name="car" class="w-5 h-5"></lucide-icon>
+              <span class="font-medium">Fleet Management</span>
+            </a>
           </nav>
         </div>
 
