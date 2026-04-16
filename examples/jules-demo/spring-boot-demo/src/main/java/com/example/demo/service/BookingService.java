@@ -34,6 +34,7 @@ public class BookingService {
         // Terminal states: COMPLETED, CANCELLED
     }
 
+    @Transactional
     public CarSharingBooking createBooking(String carId, String userId) {
         CarSharingBooking booking = CarSharingBooking.builder()
                 .carId(carId)
@@ -41,7 +42,19 @@ public class BookingService {
                 .status(BookingStatus.REQUESTED)
                 .startTime(LocalDateTime.now())
                 .build();
-        return bookingRepository.save(booking);
+        CarSharingBooking savedBooking = bookingRepository.save(booking);
+
+        AuditLogEntry auditLog = AuditLogEntry.builder()
+                .entityId(savedBooking.getId())
+                .carId(carId)
+                .userId(userId)
+                .oldStatus(null)
+                .newStatus(BookingStatus.REQUESTED.name())
+                .timestamp(LocalDateTime.now())
+                .build();
+        auditLogRepository.save(auditLog);
+
+        return savedBooking;
     }
 
     @Transactional
@@ -69,6 +82,8 @@ public class BookingService {
 
         AuditLogEntry auditLog = AuditLogEntry.builder()
                 .entityId(bookingId)
+                .carId(updatedBooking.getCarId())
+                .userId(updatedBooking.getUserId())
                 .oldStatus(oldStatus.name())
                 .newStatus(newStatus.name())
                 .timestamp(LocalDateTime.now())
