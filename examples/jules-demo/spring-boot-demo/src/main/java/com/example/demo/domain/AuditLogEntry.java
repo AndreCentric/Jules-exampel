@@ -20,6 +20,10 @@ public class AuditLogEntry {
 
     private Long entityId;
 
+    private String carId;
+
+    private String userId;
+
     private String oldStatus;
 
     private String newStatus;
