@@ -67,8 +67,12 @@ import { forkJoin } from 'rxjs';
 
              <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-6 relative">
                <div class="space-y-1">
-                 <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Car Identity</div>
-                 <div class="text-2xl font-bold text-slate-200">{{ booking.carId }}</div>
+                 <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Vehicle</div>
+                 <div class="text-2xl font-bold text-slate-200">
+                   <span *ngIf="booking.carBrand">{{ booking.carBrand }} {{ booking.carModel }}</span>
+                   <span *ngIf="!booking.carBrand">{{ booking.carId }}</span>
+                 </div>
+                 <div class="text-sm font-mono text-slate-400">{{ booking.carId }}</div>
                </div>
                <div class="space-y-1">
                  <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Renter / User</div>

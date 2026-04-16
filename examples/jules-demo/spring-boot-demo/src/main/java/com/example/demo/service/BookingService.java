@@ -7,6 +7,7 @@ import com.example.demo.exception.InvalidStateTransitionException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.AuditLogRepository;
 import com.example.demo.repository.BookingRepository;
+import com.example.demo.repository.CarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final AuditLogRepository auditLogRepository;
+    private final CarRepository carRepository;
 
     private static final Map<BookingStatus, Set<BookingStatus>> VALID_TRANSITIONS = new HashMap<>();
 

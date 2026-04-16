@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { BookingService } from '../../services/booking.service';
+import { CarService } from '../../services/car.service';
+import { Car } from '../../models/car.model';
 import { LucideAngularModule } from 'lucide-angular';
 import { FormsModule, NgForm } from '@angular/forms';
 
@@ -26,19 +28,25 @@ import { FormsModule, NgForm } from '@angular/forms';
 
         <form #bookingForm="ngForm" (ngSubmit)="onSubmit(bookingForm)" class="space-y-6 relative">
           <div class="space-y-2">
-            <label for="carId" class="block text-sm font-semibold text-slate-300 ml-1">Car identifier</label>
+            <label for="carId" class="block text-sm font-semibold text-slate-300 ml-1">Select Vehicle</label>
             <div class="relative group">
               <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-primary-400 transition-colors">
                 <lucide-icon name="car" class="w-5 h-5"></lucide-icon>
               </div>
-              <input
-                type="text"
+              <select
                 id="carId"
                 name="carId"
                 [(ngModel)]="model.carId"
                 required
-                placeholder="e.g. TESLA-001"
-                class="block w-full pl-12 pr-4 py-4 bg-slate-950 border border-slate-800 rounded-2xl text-white placeholder-slate-600 outline-none ring-primary-500/20 focus:ring-4 focus:border-primary-500 transition-all">
+                class="block w-full pl-12 pr-4 py-4 bg-slate-950 border border-slate-800 rounded-2xl text-white outline-none ring-primary-500/20 focus:ring-4 focus:border-primary-500 transition-all appearance-none">
+                <option value="" disabled selected>Select a car...</option>
+                <option *ngFor="let car of cars" [value]="car.licensePlate">
+                  {{ car.brand }} {{ car.model }} ({{ car.licensePlate }})
+                </option>
+              </select>
+              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-500">
+                <lucide-icon name="chevron-down" class="w-5 h-5"></lucide-icon>
+              </div>
             </div>
           </div>
 
@@ -78,15 +86,27 @@ import { FormsModule, NgForm } from '@angular/forms';
   `,
   styles: []
 })
-export class BookingCreateComponent {
+export class BookingCreateComponent implements OnInit {
   model = {
     carId: '',
     userId: ''
   };
+  cars: Car[] = [];
   submitting = false;
   error = '';
 
-  constructor(private bookingService: BookingService, private router: Router) {}
+  constructor(
+    private bookingService: BookingService,
+    private carService: CarService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.carService.getCars().subscribe({
+      next: (data) => this.cars = data,
+      error: () => this.error = 'Failed to load fleet. Please refresh.'
+    });
+  }
 
   onSubmit(form: NgForm): void {
     if (form.invalid) return;

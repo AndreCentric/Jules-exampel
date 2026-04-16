@@ -21,5 +21,9 @@ export const routes: Routes = [
   {
     path: 'history',
     loadComponent: () => import('./pages/global-history/global-history.component').then(m => m.GlobalHistoryComponent)
+  },
+  {
+    path: 'fleet',
+    loadComponent: () => import('./pages/fleet-management/fleet-management.component').then(m => m.FleetManagementComponent)
   }
 ];
