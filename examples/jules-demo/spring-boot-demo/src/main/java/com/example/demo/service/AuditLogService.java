@@ -17,4 +17,8 @@ public class AuditLogService {
     public List<AuditLogEntry> getAuditLogs(String carId, LocalDateTime from, LocalDateTime to) {
         return auditLogRepository.findByFilters(carId, from, to);
     }
+
+    public List<AuditLogEntry> getAuditLogsByBookingId(Long bookingId) {
+        return auditLogRepository.findByEntityId(bookingId);
+    }
 }

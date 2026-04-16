@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -103,5 +104,13 @@ public class BookingService {
     public CarSharingBooking getBooking(Long bookingId) {
         return bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + bookingId + " not found"));
+    }
+
+    public List<CarSharingBooking> getBookings(BookingStatus status) {
+        return bookingRepository.findByFilters(status);
+    }
+
+    public Set<BookingStatus> getAllowedTransitions(BookingStatus status) {
+        return VALID_TRANSITIONS.getOrDefault(status, EnumSet.noneOf(BookingStatus.class));
     }
 }

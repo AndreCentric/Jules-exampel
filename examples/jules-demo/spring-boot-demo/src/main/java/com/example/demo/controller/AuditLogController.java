@@ -5,10 +5,7 @@ import com.example.demo.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,9 +20,13 @@ public class AuditLogController {
     @GetMapping
     public ResponseEntity<List<AuditLogEntry>> getAuditLogs(
             @RequestParam(required = false) String carId,
+            @RequestParam(required = false) Long bookingId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
 
+        if (bookingId != null) {
+            return ResponseEntity.ok(auditLogService.getAuditLogsByBookingId(bookingId));
+        }
         return ResponseEntity.ok(auditLogService.getAuditLogs(carId, from, to));
     }
 }
