@@ -1,55 +1,56 @@
-# Charging Status Workflow Demo
+# Car Sharing Booking Workflow Demo
 
-Diese Demo implementiert einen Workflow für den Status von Autoladevorgängen.
+Diese Demo implementiert einen Workflow für den Status von Car-Sharing Buchungen.
 
 ## Zustandsübergänge
 
 Folgende Übergänge sind erlaubt:
-- `AVAILABLE` -> `CHARGING`, `ERROR`
-- `CHARGING` -> `FINISHED`, `ERROR`
-- `FINISHED` -> `AVAILABLE`
-- `ERROR` -> `AVAILABLE`
+- `REQUESTED` -> `ACTIVE` (Buchung starten)
+- `REQUESTED` -> `CANCELLED` (Buchung stornieren)
+- `ACTIVE` -> `COMPLETED` (Fahrzeug zurückgeben)
 
 ## Features
 - Validierung von Zustandsübergängen.
 - Audit-Logging für jede erfolgreiche Statusänderung.
 - Zentrale Fehlerbehandlung mit aussagekräftigen Meldungen.
+- Automatisches Setzen von Endzeiten bei Abschluss.
+- Initialisierung mit Beispieldaten.
 
 ## API Endpunkte & CURL Beispiele
 
-### 1. Eine neue Ladesession erstellen
+### 1. Eine neue Buchung erstellen
 ```bash
-curl -X POST http://localhost:8080/api/charging/sessions \
+curl -X POST http://localhost:8080/api/bookings \
 -H "Content-Type: application/json" \
--d '{"chargerId": "CHARGER-001"}'
+-d '{"carId": "VW-ID3-001", "userId": "user_123"}'
 ```
 
-### 2. Status einer Session abrufen
+### 2. Status einer Buchung abrufen
 ```bash
-curl -X GET http://localhost:8080/api/charging/sessions/1
+curl -X GET http://localhost:8080/api/bookings/1
 ```
 
-### 3. Status einer Session aktualisieren (Valider Übergang)
+### 3. Status einer Buchung aktualisieren (Valider Übergang)
 ```bash
-curl -X PATCH http://localhost:8080/api/charging/sessions/1/status \
+curl -X PATCH http://localhost:8080/api/bookings/1/status \
 -H "Content-Type: application/json" \
--d '{"status": "CHARGING"}'
+-d '{"status": "ACTIVE"}'
 ```
 
-### 4. Status einer Session aktualisieren (Invalider Übergang)
-Wenn der aktuelle Status `AVAILABLE` ist, ist ein Übergang zu `FINISHED` ungültig:
+### 4. Status einer Buchung aktualisieren (Invalider Übergang)
+Wenn der aktuelle Status `REQUESTED` ist, ist ein direkter Übergang zu `COMPLETED` ungültig:
 ```bash
-curl -X PATCH http://localhost:8080/api/charging/sessions/1/status \
+curl -X PATCH http://localhost:8080/api/bookings/1/status \
 -H "Content-Type: application/json" \
--d '{"status": "FINISHED"}'
+-d '{"status": "COMPLETED"}'
 ```
-**Antwort:** `400 Bad Request` mit Nachricht: `Invalid transition from AVAILABLE to FINISHED`
+**Antwort:** `400 Bad Request` mit Nachricht: `Invalid transition from REQUESTED to COMPLETED`
 
-### 5. Nicht existierende Session abrufen
+### 5. Nicht existierende Buchung abrufen
 ```bash
-curl -X GET http://localhost:8080/api/charging/sessions/999
+curl -X GET http://localhost:8080/api/bookings/999
 ```
-**Antwort:** `404 Not Found` mit Nachricht: `ChargingSession with id 999 not found`
+**Antwort:** `404 Not Found` mit Nachricht: `Booking with id 999 not found`
 
 ## Tests ausführen
 ```bash

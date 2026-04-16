@@ -18,13 +18,11 @@ public class AuditLogEntry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long sessionId;
+    private Long entityId;
 
-    @Enumerated(EnumType.STRING)
-    private ChargingStatus oldStatus;
+    private String oldStatus;
 
-    @Enumerated(EnumType.STRING)
-    private ChargingStatus newStatus;
+    private String newStatus;
 
     private LocalDateTime timestamp;
 }

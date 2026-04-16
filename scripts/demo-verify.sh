@@ -15,14 +15,14 @@ else
   exit 1
 fi
 
-# Prüfe Demo Endpunkt
-DEMO_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/demo)
+# Prüfe Car Sharing Buchungen (Beispieldaten sollten vorhanden sein)
+BOOKING_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/bookings/1)
 
-if [ "$DEMO_STATUS" -eq 200 ]; then
-  echo "✅ /api/demo ist erreichbar (HTTP 200)"
-  curl -s http://localhost:8080/api/demo | grep -q "features" && echo "  - Features werden zurückgegeben"
+if [ "$BOOKING_STATUS" -eq 200 ]; then
+  echo "✅ /api/bookings/1 ist erreichbar (HTTP 200)"
+  curl -s http://localhost:8080/api/bookings/1 | grep -q "carId" && echo "  - Buchungsdaten vorhanden"
 else
-  echo "❌ /api/demo ist NICHT erreichbar (HTTP $DEMO_STATUS)"
+  echo "❌ /api/bookings/1 ist NICHT erreichbar (HTTP $BOOKING_STATUS)"
   exit 1
 fi
 

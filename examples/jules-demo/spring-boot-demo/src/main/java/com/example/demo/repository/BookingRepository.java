@@ -1,9 +1,9 @@
 package com.example.demo.repository;
 
-import com.example.demo.domain.ChargingSession;
+import com.example.demo.domain.CarSharingBooking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ChargingSessionRepository extends JpaRepository<ChargingSession, Long> {
+public interface BookingRepository extends JpaRepository<CarSharingBooking, Long> {
 }

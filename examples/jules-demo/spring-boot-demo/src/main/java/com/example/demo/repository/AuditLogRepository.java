@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface AuditLogRepository extends JpaRepository<AuditLogEntry, Long> {
-    List<AuditLogEntry> findBySessionId(Long sessionId);
+    List<AuditLogEntry> findByEntityId(Long entityId);
 }
