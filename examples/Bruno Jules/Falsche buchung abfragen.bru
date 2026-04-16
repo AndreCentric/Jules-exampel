@@ -1,0 +1,15 @@
+meta {
+  name: Falsche buchung abfragen
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8080/api/bookings/999
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: false
+}

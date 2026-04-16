@@ -1,0 +1,25 @@
+meta {
+  name: Status aktucalisiern Invalidieren 
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:8080/api/bookings/1/status
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "status": "COMPLETED"
+  }
+}
+
+settings {
+  encodeUrl: false
+}

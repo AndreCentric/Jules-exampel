@@ -1,0 +1,25 @@
+meta {
+  name: Status Buchung Aktualisieren 
+  type: http
+  seq: 3
+}
+
+patch {
+  url: http://localhost:8080/api/bookings/1/status
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "status": "ACTIVE"
+  }
+}
+
+settings {
+  encodeUrl: false
+}
